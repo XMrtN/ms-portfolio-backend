@@ -14,7 +14,7 @@ public class UserService {
     IUserRepository iuserRepository;
     
     public Optional<User> getByUserName(String userName) {
-        return iuserRepository.fingByUserName(userName);
+        return iuserRepository.findByUserName(userName);
     }
     
     public boolean existsByUserName(String userName) {
