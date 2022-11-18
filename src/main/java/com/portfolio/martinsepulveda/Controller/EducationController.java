@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("edu")
+@RequestMapping("/edu")
 @CrossOrigin(origins = "http://localhost:4200")
 public class EducationController {
     @Autowired
@@ -29,7 +29,7 @@ public class EducationController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<Education> getById(@PathVariable("id") int id){
         if(!educationService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("No existe"), HttpStatus.BAD_REQUEST);
         
         Education education = educationService.getOne(id).get();
         return new ResponseEntity(education, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class EducationController {
             return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         
         if(educationService.existsByEdName(edDto.getEdName()))
-            return new ResponseEntity(new Message("Dependencia existente"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Educación existente"), HttpStatus.BAD_REQUEST);
         
         Education education =  new Education(edDto.getEdName(), edDto.getEdDesc());
         educationService.save(education);

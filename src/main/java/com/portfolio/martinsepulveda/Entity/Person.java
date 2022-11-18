@@ -14,7 +14,7 @@ import lombok.Setter;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     @NotNull
     @Size(min = 1, max = 50, message = "Longitud inválida")
@@ -24,6 +24,20 @@ public class Person {
     @Size(min = 1, max = 50, message = "Longitud inválida")
     private String lastName;
     
-    @Size(min = 1, max = 50, message = "Longitud inválida")
+    @NotNull
+    private String description;
+    
     private String img;
+    
+    //Constructors
+    public Person() {
+    }
+
+    public Person(String name, String lastName, String description, String img) {
+        this.name = name;
+        this.lastName = lastName;
+        this.description = description;
+        this.img = img;
+    }
+    
 }

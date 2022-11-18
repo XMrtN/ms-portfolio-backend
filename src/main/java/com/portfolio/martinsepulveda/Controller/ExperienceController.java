@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("explab")
+@RequestMapping("/explab")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ExperienceController {
     @Autowired
@@ -29,7 +29,7 @@ public class ExperienceController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<Experience> getById(@PathVariable("id") int id){
         if(!experienceService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("No existe"), HttpStatus.BAD_REQUEST);
         
         Experience experience = experienceService.getOne(id).get();
         return new ResponseEntity(experience, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class ExperienceController {
             return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         
         if(experienceService.existsByExpName(expDto.getExpName()))
-            return new ResponseEntity(new Message("Dependencia existente"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Experiencia existente"), HttpStatus.BAD_REQUEST);
         
         Experience experience =  new Experience(expDto.getExpName(), expDto.getExpDesc());
         experienceService.save(experience);

@@ -1,7 +1,10 @@
 package com.portfolio.martinsepulveda.Dto;
 
 import javax.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class EducationDto {
     @NotBlank
     private String edName;
@@ -14,23 +17,6 @@ public class EducationDto {
 
     public EducationDto(String edName, String edDesc) {
         this.edName = edName;
-        this.edDesc = edDesc;
-    }
-    
-    //Getters and Setters
-    public String getEdName() {
-        return edName;
-    }
-
-    public void setEdName(String edName) {
-        this.edName = edName;
-    }
-
-    public String getEdDesc() {
-        return edDesc;
-    }
-
-    public void setEdDesc(String edDesc) {
         this.edDesc = edDesc;
     }
     

@@ -9,20 +9,20 @@ import lombok.Setter;
 
 @Getter @Setter
 @Entity
-public class Experience {
+public class BackSkill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String expName;
-    private String expDesc;
+    private String name;
+    private int percentage;
     
     //Constructors
-    public Experience() {
+    public BackSkill() {
     }
 
-    public Experience(String expName, String expDesc) {
-        this.expName = expName;
-        this.expDesc = expDesc;
+    public BackSkill(String name, int percentage) {
+        this.name = name;
+        this.percentage = percentage;
     }
     
 }
