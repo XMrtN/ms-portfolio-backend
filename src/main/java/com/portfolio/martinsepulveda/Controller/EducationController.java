@@ -26,19 +26,19 @@ public class EducationController {
     @Autowired
     EducationService educationService;
     
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<Education> getById(@PathVariable("id") int id){
-        if(!educationService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.BAD_REQUEST);
-        
-        Education education = educationService.getOne(id).get();
-        return new ResponseEntity(education, HttpStatus.OK);
-    }
-    
     @GetMapping("/list")
     public ResponseEntity<List<Education>> list() {
         List<Education> list = educationService.list();
         return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Education> getById(@PathVariable("id") int id){
+        if(!educationService.existsById(id))
+            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+        
+        Education education = educationService.getOne(id).get();
+        return new ResponseEntity(education, HttpStatus.OK);
     }
     
     @PostMapping("/create")
@@ -58,7 +58,7 @@ public class EducationController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody EducationDto edDto) {
         if(!educationService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         if(educationService.existsByEdName(edDto.getEdName()) && educationService.getByEdName(edDto.getEdName()).get().getId() != id)
             return new ResponseEntity(new Message("Esa educación ya existe"), HttpStatus.BAD_REQUEST);
@@ -78,7 +78,7 @@ public class EducationController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
         if(!educationService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         educationService.delete(id);
         return new ResponseEntity(new Message("Educación eliminada"), HttpStatus.OK);

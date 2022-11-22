@@ -26,19 +26,19 @@ public class SoftSkillController {
     @Autowired
     SoftSkillService softskillService;
     
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<SoftSkill> getById(@PathVariable("id") int id){
-        if(!softskillService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.BAD_REQUEST);
-        
-        SoftSkill softskill = softskillService.getOne(id).get();
-        return new ResponseEntity(softskill, HttpStatus.OK);
-    }
-    
     @GetMapping("/list")
     public ResponseEntity<List<SoftSkill>> list() {
         List<SoftSkill> list = softskillService.list();
         return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<SoftSkill> getById(@PathVariable("id") int id){
+        if(!softskillService.existsById(id))
+            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+        
+        SoftSkill softskill = softskillService.getOne(id).get();
+        return new ResponseEntity(softskill, HttpStatus.OK);
     }
     
     @PostMapping("/create")
@@ -58,7 +58,7 @@ public class SoftSkillController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody SoftSkillDto softskillDto) {
         if(!softskillService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         if(softskillService.existsByName(softskillDto.getName()) && softskillService.getByName(softskillDto.getName()).get().getId() != id)
             return new ResponseEntity(new Message("Esa habilidad ya existe"), HttpStatus.BAD_REQUEST);
@@ -66,11 +66,11 @@ public class SoftSkillController {
         if(StringUtils.isBlank(softskillDto.getName()))
             return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        SoftSkill skill = softskillService.getOne(id).get();
-        skill.setName(softskillDto.getName());
-        skill.setPercentage(softskillDto.getPercentage());
+        SoftSkill softskill = softskillService.getOne(id).get();
+        softskill.setName(softskillDto.getName());
+        softskill.setPercentage(softskillDto.getPercentage());
         
-        softskillService.save(skill);
+        softskillService.save(softskill);
         return new ResponseEntity(new Message("Habilidad actualizada"), HttpStatus.OK);
         
     }
@@ -78,9 +78,10 @@ public class SoftSkillController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
         if(!softskillService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         softskillService.delete(id);
         return new ResponseEntity(new Message("Habilidad eliminada"), HttpStatus.OK);
     }
+    
 }

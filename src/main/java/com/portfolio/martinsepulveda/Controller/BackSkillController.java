@@ -26,19 +26,19 @@ public class BackSkillController {
     @Autowired
     BackSkillService backskillService;
     
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<BackSkill> getById(@PathVariable("id") int id){
-        if(!backskillService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.BAD_REQUEST);
-        
-        BackSkill backskill = backskillService.getOne(id).get();
-        return new ResponseEntity(backskill, HttpStatus.OK);
-    }
-    
     @GetMapping("/list")
     public ResponseEntity<List<BackSkill>> list() {
         List<BackSkill> list = backskillService.list();
         return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<BackSkill> getById(@PathVariable("id") int id){
+        if(!backskillService.existsById(id))
+            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+        
+        BackSkill backskill = backskillService.getOne(id).get();
+        return new ResponseEntity(backskill, HttpStatus.OK);
     }
     
     @PostMapping("/create")
@@ -58,7 +58,7 @@ public class BackSkillController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody BackSkillDto backskillDto) {
         if(!backskillService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         if(backskillService.existsByName(backskillDto.getName()) && backskillService.getByName(backskillDto.getName()).get().getId() != id)
             return new ResponseEntity(new Message("Esa habilidad ya existe"), HttpStatus.BAD_REQUEST);
@@ -66,11 +66,11 @@ public class BackSkillController {
         if(StringUtils.isBlank(backskillDto.getName()))
             return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        BackSkill skill = backskillService.getOne(id).get();
-        skill.setName(backskillDto.getName());
-        skill.setPercentage(backskillDto.getPercentage());
+        BackSkill backskill = backskillService.getOne(id).get();
+        backskill.setName(backskillDto.getName());
+        backskill.setPercentage(backskillDto.getPercentage());
         
-        backskillService.save(skill);
+        backskillService.save(backskill);
         return new ResponseEntity(new Message("Habilidad actualizada"), HttpStatus.OK);
         
     }
@@ -78,9 +78,10 @@ public class BackSkillController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
         if(!backskillService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         backskillService.delete(id);
         return new ResponseEntity(new Message("Habilidad eliminada"), HttpStatus.OK);
     }
+    
 }

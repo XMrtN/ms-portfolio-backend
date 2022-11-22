@@ -26,19 +26,19 @@ public class ExperienceController {
     @Autowired
     ExperienceService experienceService;
     
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<Experience> getById(@PathVariable("id") int id){
-        if(!experienceService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.BAD_REQUEST);
-        
-        Experience experience = experienceService.getOne(id).get();
-        return new ResponseEntity(experience, HttpStatus.OK);
-    }
-    
     @GetMapping("/list")
     public ResponseEntity<List<Experience>> list() {
         List<Experience> list = experienceService.list();
         return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Experience> getById(@PathVariable("id") int id) {
+        if(!experienceService.existsById(id))
+            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+        
+        Experience experience = experienceService.getOne(id).get();
+        return new ResponseEntity(experience, HttpStatus.OK);
     }
     
     @PostMapping("/create")
@@ -58,7 +58,7 @@ public class ExperienceController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody ExperienceDto expDto) {
         if(!experienceService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         if(experienceService.existsByExpName(expDto.getExpName()) && experienceService.getByExpName(expDto.getExpName()).get().getId() != id)
             return new ResponseEntity(new Message("Esa experiencia ya existe"), HttpStatus.BAD_REQUEST);
@@ -78,7 +78,7 @@ public class ExperienceController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
         if(!experienceService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         experienceService.delete(id);
         return new ResponseEntity(new Message("Experiencia eliminada"), HttpStatus.OK);

@@ -26,19 +26,19 @@ public class FrontSkillController {
     @Autowired
     FrontSkillService frontskillService;
     
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<FrontSkill> getById(@PathVariable("id") int id){
-        if(!frontskillService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.BAD_REQUEST);
-        
-        FrontSkill frontskill = frontskillService.getOne(id).get();
-        return new ResponseEntity(frontskill, HttpStatus.OK);
-    }
-    
     @GetMapping("/list")
     public ResponseEntity<List<FrontSkill>> list() {
         List<FrontSkill> list = frontskillService.list();
         return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<FrontSkill> getById(@PathVariable("id") int id){
+        if(!frontskillService.existsById(id))
+            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+        
+        FrontSkill frontskill = frontskillService.getOne(id).get();
+        return new ResponseEntity(frontskill, HttpStatus.OK);
     }
     
     @PostMapping("/create")
@@ -58,7 +58,7 @@ public class FrontSkillController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody FrontSkillDto frontskillDto) {
         if(!frontskillService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         if(frontskillService.existsByName(frontskillDto.getName()) && frontskillService.getByName(frontskillDto.getName()).get().getId() != id)
             return new ResponseEntity(new Message("Esa habilidad ya existe"), HttpStatus.BAD_REQUEST);
@@ -66,11 +66,11 @@ public class FrontSkillController {
         if(StringUtils.isBlank(frontskillDto.getName()))
             return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        FrontSkill skill = frontskillService.getOne(id).get();
-        skill.setName(frontskillDto.getName());
-        skill.setPercentage(frontskillDto.getPercentage());
+        FrontSkill frontskill = frontskillService.getOne(id).get();
+        frontskill.setName(frontskillDto.getName());
+        frontskill.setPercentage(frontskillDto.getPercentage());
         
-        frontskillService.save(skill);
+        frontskillService.save(frontskill);
         return new ResponseEntity(new Message("Habilidad actualizada"), HttpStatus.OK);
         
     }
@@ -78,9 +78,10 @@ public class FrontSkillController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
         if(!frontskillService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
         
         frontskillService.delete(id);
         return new ResponseEntity(new Message("Habilidad eliminada"), HttpStatus.OK);
     }
+    
 }
