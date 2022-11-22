@@ -39,7 +39,7 @@ public class PersonController {
         return new ResponseEntity(person, HttpStatus.OK);
     }
     
-    /*@PostMapping("/create")
+    @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody PersonDto personDto) {
         if(StringUtils.isBlank(personDto.getName()))
             return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -47,11 +47,11 @@ public class PersonController {
         if(personService.existsByName(personDto.getName()))
             return new ResponseEntity(new Message("Persona existente"), HttpStatus.BAD_REQUEST);
         
-        Person person =  new Person(personDto.getName(), personDto.getDescription());
+        Person person =  new Person(personDto.getName(), personDto.getLastName(), personDto.getDescription(), personDto.getImg());
         personService.save(person);
         
         return new ResponseEntity(new Message("Persona agregada"), HttpStatus.OK);
-    }*/
+    }
     
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody PersonDto personDto) {
