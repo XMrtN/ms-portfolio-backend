@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IExperienceRepository extends JpaRepository<Experience, Integer> {
-    public Optional<Experience> findByExpName(String expName);
-    public boolean existsByExpName(String expName);
+    public Optional<Experience> findByExpJobTitle(String expJobTitle);
+    public boolean existsByExpJobTitle(String expJobTitle);
 }

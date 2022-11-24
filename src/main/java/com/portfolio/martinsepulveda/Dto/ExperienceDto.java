@@ -7,7 +7,11 @@ import lombok.Setter;
 @Getter @Setter
 public class ExperienceDto {
     @NotBlank
-    private String expName;
+    private String expCompName;
+    @NotBlank
+    private String expJobTitle;
+    @NotBlank
+    private String expPeriod;
     @NotBlank
     private String expDesc;
     
@@ -15,8 +19,10 @@ public class ExperienceDto {
     public ExperienceDto() {
     }
 
-    public ExperienceDto(String expName, String expDesc) {
-        this.expName = expName;
+    public ExperienceDto(String expCompName, String expJobTitle, String expPeriod, String expDesc) {
+        this.expCompName = expCompName;
+        this.expJobTitle = expJobTitle;
+        this.expPeriod = expPeriod;
         this.expDesc = expDesc;
     }
     

@@ -35,7 +35,7 @@ public class EducationController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<Education> getById(@PathVariable("id") int id){
         if(!educationService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("La educación no existe"), HttpStatus.NOT_FOUND);
         
         Education education = educationService.getOne(id).get();
         return new ResponseEntity(education, HttpStatus.OK);
@@ -43,13 +43,19 @@ public class EducationController {
     
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody EducationDto edDto) {
-        if(StringUtils.isBlank(edDto.getEdName()))
-            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(edDto.getEdInsTitle()))
+            return new ResponseEntity(new Message("El nombre del instituto es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        if(educationService.existsByEdName(edDto.getEdName()))
-            return new ResponseEntity(new Message("Educación existente"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(edDto.getEdCareerName()))
+            return new ResponseEntity(new Message("El nombre de la carrera es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        Education education =  new Education(edDto.getEdName(), edDto.getEdDesc());
+        if(StringUtils.isBlank(edDto.getEdPeriod()))
+            return new ResponseEntity(new Message("El periodo de tiempo es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        if(educationService.existsByEdCareerName(edDto.getEdCareerName()))
+            return new ResponseEntity(new Message("Esa educación ya existe"), HttpStatus.BAD_REQUEST);
+        
+        Education education =  new Education(edDto.getEdInsTitle(), edDto.getEdCareerName(), edDto.getEdPeriod(), edDto.getEdDesc());
         educationService.save(education);
         
         return new ResponseEntity(new Message("Educación agregada"), HttpStatus.OK);
@@ -57,28 +63,35 @@ public class EducationController {
     
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody EducationDto edDto) {
-        if(!educationService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        if(StringUtils.isBlank(edDto.getEdInsTitle()))
+            return new ResponseEntity(new Message("El nombre del instituto es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        if(educationService.existsByEdName(edDto.getEdName()) && educationService.getByEdName(edDto.getEdName()).get().getId() != id)
+        if(StringUtils.isBlank(edDto.getEdCareerName()))
+            return new ResponseEntity(new Message("El nombre de la carrera es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        if(StringUtils.isBlank(edDto.getEdPeriod()))
+            return new ResponseEntity(new Message("El periodo de tiempo es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        if(!educationService.existsById(id))
+            return new ResponseEntity(new Message("La educación no existe"), HttpStatus.NOT_FOUND);
+        
+        if(educationService.existsByEdCareerName(edDto.getEdCareerName()) && educationService.getByEdCareerName(edDto.getEdCareerName()).get().getId() != id)
             return new ResponseEntity(new Message("Esa educación ya existe"), HttpStatus.BAD_REQUEST);
         
-        if(StringUtils.isBlank(edDto.getEdName()))
-            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        
         Education education = educationService.getOne(id).get();
-        education.setEdName(edDto.getEdName());
+        education.setEdInsTitle(edDto.getEdInsTitle());
+        education.setEdCareerName(edDto.getEdCareerName());
+        education.setEdPeriod(edDto.getEdPeriod());
         education.setEdDesc(edDto.getEdDesc());
         
         educationService.save(education);
         return new ResponseEntity(new Message("Educación actualizada"), HttpStatus.OK);
-        
     }
     
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
         if(!educationService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("La educación no existe"), HttpStatus.NOT_FOUND);
         
         educationService.delete(id);
         return new ResponseEntity(new Message("Educación eliminada"), HttpStatus.OK);

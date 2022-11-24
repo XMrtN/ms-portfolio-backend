@@ -49,7 +49,7 @@ public class ProyectController {
         if(proyectService.existsByTitle(proyectDto.getTitle()))
             return new ResponseEntity(new Message("Proyecto existente"), HttpStatus.BAD_REQUEST);
         
-        Proyect proyect =  new Proyect(proyectDto.getTitle(), proyectDto.getSubtitle(), proyectDto.getDescription(), proyectDto.getImg(), proyectDto.getUrl());
+        Proyect proyect =  new Proyect(proyectDto.getTitle(), proyectDto.getSubtitle(), proyectDto.getFinishDate(), proyectDto.getDescription(), proyectDto.getImg(), proyectDto.getUrl());
         proyectService.save(proyect);
         
         return new ResponseEntity(new Message("Proyecto agregado"), HttpStatus.OK);
@@ -69,6 +69,7 @@ public class ProyectController {
         Proyect proyect = proyectService.getOne(id).get();
         proyect.setTitle(proyectDto.getTitle());
         proyect.setSubtitle(proyectDto.getSubtitle());
+        proyect.setFinishDate(proyectDto.getFinishDate());
         proyect.setDescription(proyectDto.getDescription());
         proyect.setImg(proyectDto.getImg());
         

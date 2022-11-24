@@ -13,15 +13,19 @@ public class Experience {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String expName;
+    private String expCompName;
+    private String expJobTitle;
+    private String expPeriod;
     private String expDesc;
     
     //Constructors
     public Experience() {
     }
 
-    public Experience(String expName, String expDesc) {
-        this.expName = expName;
+    public Experience(String expCompName, String expJobTitle, String expPeriod, String expDesc) {
+        this.expCompName = expCompName;
+        this.expJobTitle = expJobTitle;
+        this.expPeriod = expPeriod;
         this.expDesc = expDesc;
     }
     

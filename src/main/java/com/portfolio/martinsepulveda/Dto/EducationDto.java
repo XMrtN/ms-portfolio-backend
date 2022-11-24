@@ -7,7 +7,11 @@ import lombok.Setter;
 @Getter @Setter
 public class EducationDto {
     @NotBlank
-    private String edName;
+    private String edInsTitle;
+    @NotBlank
+    private String edCareerName;
+    @NotBlank
+    private String edPeriod;
     @NotBlank
     private String edDesc;
     
@@ -15,8 +19,10 @@ public class EducationDto {
     public EducationDto() {
     }
 
-    public EducationDto(String edName, String edDesc) {
-        this.edName = edName;
+    public EducationDto(String edInsTitle, String edCareerName, String edPeriod, String edDesc) {
+        this.edInsTitle = edInsTitle;
+        this.edCareerName = edCareerName;
+        this.edPeriod = edPeriod;
         this.edDesc = edDesc;
     }
     

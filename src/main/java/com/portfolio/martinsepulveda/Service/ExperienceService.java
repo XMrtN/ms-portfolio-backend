@@ -22,8 +22,8 @@ public class ExperienceService {
         return iexperienceRepository.findById(id);
     }
     
-    public Optional<Experience> getByExpName(String expName) {
-        return iexperienceRepository.findByExpName(expName);
+    public Optional<Experience> getByExpJobTitle(String expJobTitle) {
+        return iexperienceRepository.findByExpJobTitle(expJobTitle);
     }
     
     public void save(Experience exp) {
@@ -38,8 +38,8 @@ public class ExperienceService {
         return iexperienceRepository.existsById(id);
     }
     
-    public boolean existsByExpName(String expName) {
-        return iexperienceRepository.existsByExpName(expName);
+    public boolean existsByExpJobTitle(String expJobTitle) {
+        return iexperienceRepository.existsByExpJobTitle(expJobTitle);
     }
     
 }

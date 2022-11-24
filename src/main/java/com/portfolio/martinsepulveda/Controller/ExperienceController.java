@@ -35,7 +35,7 @@ public class ExperienceController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<Experience> getById(@PathVariable("id") int id) {
         if(!experienceService.existsById(id))
-            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("La experiencia no existe"), HttpStatus.NOT_FOUND);
         
         Experience experience = experienceService.getOne(id).get();
         return new ResponseEntity(experience, HttpStatus.OK);
@@ -43,13 +43,19 @@ public class ExperienceController {
     
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody ExperienceDto expDto) {
-        if(StringUtils.isBlank(expDto.getExpName()))
-            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(expDto.getExpCompName()))
+            return new ResponseEntity(new Message("El nombre de la compañía es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        if(experienceService.existsByExpName(expDto.getExpName()))
-            return new ResponseEntity(new Message("Experiencia existente"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(expDto.getExpJobTitle()))
+            return new ResponseEntity(new Message("El nombre del puesto es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        Experience experience =  new Experience(expDto.getExpName(), expDto.getExpDesc());
+        if(StringUtils.isBlank(expDto.getExpPeriod()))
+            return new ResponseEntity(new Message("El periodo de tiempo es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        if(experienceService.existsByExpJobTitle(expDto.getExpJobTitle()))
+            return new ResponseEntity(new Message("Esa experiencia ya existe"), HttpStatus.BAD_REQUEST);
+        
+        Experience experience =  new Experience(expDto.getExpCompName(), expDto.getExpJobTitle(), expDto.getExpPeriod(), expDto.getExpDesc());
         experienceService.save(experience);
         
         return new ResponseEntity(new Message("Experiencia agregada"), HttpStatus.OK);
@@ -57,17 +63,25 @@ public class ExperienceController {
     
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody ExperienceDto expDto) {
-        if(!experienceService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        if(StringUtils.isBlank(expDto.getExpCompName()))
+            return new ResponseEntity(new Message("El nombre de la compañía es obligatorio"), HttpStatus.BAD_REQUEST);
         
-        if(experienceService.existsByExpName(expDto.getExpName()) && experienceService.getByExpName(expDto.getExpName()).get().getId() != id)
+        if(StringUtils.isBlank(expDto.getExpJobTitle()))
+            return new ResponseEntity(new Message("El nombre del puesto es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        if(StringUtils.isBlank(expDto.getExpPeriod()))
+            return new ResponseEntity(new Message("El periodo de tiempo es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        if(!experienceService.existsById(id))
+            return new ResponseEntity(new Message("La experiencia no existe"), HttpStatus.NOT_FOUND);
+        
+        if(experienceService.existsByExpJobTitle(expDto.getExpJobTitle()) && experienceService.getByExpJobTitle(expDto.getExpJobTitle()).get().getId() != id)
             return new ResponseEntity(new Message("Esa experiencia ya existe"), HttpStatus.BAD_REQUEST);
         
-        if(StringUtils.isBlank(expDto.getExpName()))
-            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        
         Experience experience = experienceService.getOne(id).get();
-        experience.setExpName(expDto.getExpName());
+        experience.setExpCompName(expDto.getExpCompName());
+        experience.setExpJobTitle(expDto.getExpJobTitle());
+        experience.setExpPeriod(expDto.getExpPeriod());
         experience.setExpDesc(expDto.getExpDesc());
         
         experienceService.save(experience);
@@ -78,7 +92,7 @@ public class ExperienceController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
         if(!experienceService.existsById(id))
-            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("La experiencia no existe"), HttpStatus.NOT_FOUND);
         
         experienceService.delete(id);
         return new ResponseEntity(new Message("Experiencia eliminada"), HttpStatus.OK);

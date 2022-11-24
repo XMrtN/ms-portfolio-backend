@@ -13,15 +13,19 @@ public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String edName;
+    private String edInsTitle;
+    private String edCareerName;
+    private String edPeriod;
     private String edDesc;
     
     //Constructors
     public Education() {
     }
 
-    public Education(String edName, String edDesc) {
-        this.edName = edName;
+    public Education(String edInsTitle, String edCareerName, String edPeriod, String edDesc) {
+        this.edInsTitle = edInsTitle;
+        this.edCareerName = edCareerName;
+        this.edPeriod = edPeriod;
         this.edDesc = edDesc;
     }
     

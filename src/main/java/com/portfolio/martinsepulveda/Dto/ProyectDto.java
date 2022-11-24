@@ -11,6 +11,8 @@ public class ProyectDto {
     @NotBlank
     private String subtitle;
     @NotBlank
+    private String finishDate;
+    @NotBlank
     private String description;
     @NotBlank
     private String img;
@@ -21,9 +23,10 @@ public class ProyectDto {
     public ProyectDto() {
     }
     
-    public ProyectDto(String title, String subtitle, String description, String img, String url) {
+    public ProyectDto(String title, String subtitle, String finishDate, String description, String img, String url) {
         this.title = title;
         this.subtitle = subtitle;
+        this.finishDate = finishDate;
         this.description = description;
         this.img = img;
         this.url = url;
