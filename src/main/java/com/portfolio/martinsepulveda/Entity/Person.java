@@ -27,17 +27,25 @@ public class Person {
     @NotNull
     private String description;
     
+    @NotNull
+    private String email;
+    
     private String img;
+    
+    @NotNull
+    private String cv;
     
     //Constructors
     public Person() {
     }
 
-    public Person(String name, String lastName, String description, String img) {
+    public Person(String name, String lastName, String description, String email, String img, String cv) {
         this.name = name;
         this.lastName = lastName;
         this.description = description;
+        this.email = email;
         this.img = img;
+        this.cv = cv;
     }
     
 }

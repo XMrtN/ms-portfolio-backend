@@ -48,7 +48,7 @@ public class PersonController {
         if(personService.existsByName(personDto.getName()))
             return new ResponseEntity(new Message("Persona existente"), HttpStatus.BAD_REQUEST);
         
-        Person person =  new Person(personDto.getName(), personDto.getLastName(), personDto.getDescription(), personDto.getImg());
+        Person person =  new Person(personDto.getName(), personDto.getLastName(), personDto.getDescription(), personDto.getEmail(), personDto.getImg(), personDto.getCv());
         personService.save(person);
         
         return new ResponseEntity(new Message("Persona agregada"), HttpStatus.OK);
@@ -69,7 +69,9 @@ public class PersonController {
         person.setName(personDto.getName());
         person.setLastName(personDto.getLastName());
         person.setDescription(personDto.getDescription());
+        person .setEmail(personDto.getEmail());
         person.setImg(personDto.getImg());
+        person.setCv(personDto.getCv());
         
         personService.save(person);
         return new ResponseEntity(new Message("Persona actualizada"), HttpStatus.OK);
