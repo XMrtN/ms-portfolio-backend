@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class ExperienceService {
     IExperienceRepository iexperienceRepository;
     
     public List<Experience> list() {
-        return iexperienceRepository.findAll();
+        return iexperienceRepository.findAll(Sort.by("position"));
     }
     
     public Optional<Experience> getOne(int id) {

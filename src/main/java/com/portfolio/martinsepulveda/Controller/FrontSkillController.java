@@ -49,7 +49,7 @@ public class FrontSkillController {
         if(frontskillService.existsByName(frontskillDto.getName()))
             return new ResponseEntity(new Message("Habilidad existente"), HttpStatus.BAD_REQUEST);
         
-        FrontSkill frontskill =  new FrontSkill(frontskillDto.getName(), frontskillDto.getPercentage());
+        FrontSkill frontskill =  new FrontSkill(frontskillDto.getPosition(), frontskillDto.getName(), frontskillDto.getPercentage());
         frontskillService.save(frontskill);
         
         return new ResponseEntity(new Message("Habilidad agregada"), HttpStatus.OK);
@@ -72,6 +72,19 @@ public class FrontSkillController {
         
         frontskillService.save(frontskill);
         return new ResponseEntity(new Message("Habilidad actualizada"), HttpStatus.OK);
+        
+    }
+    
+    @PutMapping("/updatepos/{id}")
+    public ResponseEntity<?> updatePos(@PathVariable("id") int id, @RequestBody FrontSkillDto frontskillDto) {
+        if(!frontskillService.existsById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        
+        FrontSkill frontskill = frontskillService.getOne(id).get();
+        frontskill.setPosition(frontskillDto.getPosition());
+        
+        frontskillService.save(frontskill);
+        return new ResponseEntity(new Message("Posición actualizada"), HttpStatus.OK);
         
     }
     

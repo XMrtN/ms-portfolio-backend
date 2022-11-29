@@ -13,6 +13,7 @@ public class SoftSkill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private int position;
     private String name;
     private int percentage;
     
@@ -20,7 +21,8 @@ public class SoftSkill {
     public SoftSkill() {
     }
 
-    public SoftSkill(String name, int percentage) {
+    public SoftSkill(int position, String name, int percentage) {
+        this.position = position;
         this.name = name;
         this.percentage = percentage;
     }

@@ -55,7 +55,7 @@ public class ExperienceController {
         if(experienceService.existsByExpJobTitle(expDto.getExpJobTitle()))
             return new ResponseEntity(new Message("Esa experiencia ya existe"), HttpStatus.BAD_REQUEST);
         
-        Experience experience =  new Experience(expDto.getExpCompName(), expDto.getExpJobTitle(), expDto.getExpPeriod(), expDto.getExpDesc());
+        Experience experience =  new Experience(expDto.getPosition(), expDto.getExpCompName(), expDto.getExpJobTitle(), expDto.getExpPeriod(), expDto.getExpDesc());
         experienceService.save(experience);
         
         return new ResponseEntity(new Message("Experiencia agregada"), HttpStatus.OK);
@@ -86,6 +86,19 @@ public class ExperienceController {
         
         experienceService.save(experience);
         return new ResponseEntity(new Message("Experiencia actualizada"), HttpStatus.OK);
+        
+    }
+    
+    @PutMapping("/updatepos/{id}")
+    public ResponseEntity<?> updatePos(@PathVariable("id") int id, @RequestBody ExperienceDto expDto) {
+        if(!experienceService.existsById(id))
+            return new ResponseEntity(new Message("La experiencia no existe"), HttpStatus.NOT_FOUND);
+        
+        Experience experience = experienceService.getOne(id).get();
+        experience.setPosition(expDto.getPosition());
+        
+        experienceService.save(experience);
+        return new ResponseEntity(new Message("Posición actualizada"), HttpStatus.OK);
         
     }
     

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class SoftSkillService {
     ISoftSkillRepository isoftskillRepository;
     
     public List<SoftSkill> list() {
-        return isoftskillRepository.findAll();
+        return isoftskillRepository.findAll(Sort.by("position"));
     }
     
     public Optional<SoftSkill> getOne(int id) {

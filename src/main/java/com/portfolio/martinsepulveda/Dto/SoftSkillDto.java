@@ -7,6 +7,8 @@ import lombok.Setter;
 @Getter @Setter
 public class SoftSkillDto {
     @NotBlank
+    private int position;
+    @NotBlank
     private String name;
     @NotBlank
     private int percentage;
@@ -15,7 +17,8 @@ public class SoftSkillDto {
     public SoftSkillDto() {
     }
 
-    public SoftSkillDto(String name, int percentage) {
+    public SoftSkillDto(int position, String name, int percentage) {
+        this.position = position;
         this.name = name;
         this.percentage = percentage;
     }

@@ -7,6 +7,8 @@ import lombok.Setter;
 @Getter @Setter
 public class FrontSkillDto {
     @NotBlank
+    private int position;
+    @NotBlank
     private String name;
     @NotBlank
     private int percentage;
@@ -15,7 +17,8 @@ public class FrontSkillDto {
     public FrontSkillDto() {
     }
 
-    public FrontSkillDto(String name, int percentage) {
+    public FrontSkillDto(int position, String name, int percentage) {
+        this.position = position;
         this.name = name;
         this.percentage = percentage;
     }

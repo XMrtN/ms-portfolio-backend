@@ -49,7 +49,7 @@ public class SoftSkillController {
         if(softskillService.existsByName(softskillDto.getName()))
             return new ResponseEntity(new Message("Habilidad existente"), HttpStatus.BAD_REQUEST);
         
-        SoftSkill softskill =  new SoftSkill(softskillDto.getName(), softskillDto.getPercentage());
+        SoftSkill softskill =  new SoftSkill(softskillDto.getPosition(), softskillDto.getName(), softskillDto.getPercentage());
         softskillService.save(softskill);
         
         return new ResponseEntity(new Message("Habilidad agregada"), HttpStatus.OK);
@@ -72,6 +72,19 @@ public class SoftSkillController {
         
         softskillService.save(softskill);
         return new ResponseEntity(new Message("Habilidad actualizada"), HttpStatus.OK);
+        
+    }
+    
+    @PutMapping("/updatepos/{id}")
+    public ResponseEntity<?> updatePos(@PathVariable("id") int id, @RequestBody SoftSkillDto softskillDto) {
+        if(!softskillService.existsById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        
+        SoftSkill softskill = softskillService.getOne(id).get();
+        softskill.setPosition(softskillDto.getPosition());
+        
+        softskillService.save(softskill);
+        return new ResponseEntity(new Message("Posición actualizada"), HttpStatus.OK);
         
     }
     

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class FrontSkillService {
     IFrontSkillRepository ifrontskillRepository;
     
     public List<FrontSkill> list() {
-        return ifrontskillRepository.findAll();
+        return ifrontskillRepository.findAll(Sort.by("position"));
     }
     
     public Optional<FrontSkill> getOne(int id) {

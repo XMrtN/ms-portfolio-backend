@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class BackSkillService {
     IBackSkillRepository ibackskillRepository;
     
     public List<BackSkill> list() {
-        return ibackskillRepository.findAll();
+        return ibackskillRepository.findAll(Sort.by("position"));
     }
     
     public Optional<BackSkill> getOne(int id) {

@@ -49,7 +49,7 @@ public class BackSkillController {
         if(backskillService.existsByName(backskillDto.getName()))
             return new ResponseEntity(new Message("Habilidad existente"), HttpStatus.BAD_REQUEST);
         
-        BackSkill backskill =  new BackSkill(backskillDto.getName(), backskillDto.getPercentage());
+        BackSkill backskill =  new BackSkill(backskillDto.getPosition(), backskillDto.getName(), backskillDto.getPercentage());
         backskillService.save(backskill);
         
         return new ResponseEntity(new Message("Habilidad agregada"), HttpStatus.OK);
@@ -72,6 +72,19 @@ public class BackSkillController {
         
         backskillService.save(backskill);
         return new ResponseEntity(new Message("Habilidad actualizada"), HttpStatus.OK);
+        
+    }
+    
+    @PutMapping("/updatepos/{id}")
+    public ResponseEntity<?> updatePos(@PathVariable("id") int id, @RequestBody BackSkillDto backskillDto) {
+        if(!backskillService.existsById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        
+        BackSkill backskill = backskillService.getOne(id).get();
+        backskill.setPosition(backskillDto.getPosition());
+        
+        backskillService.save(backskill);
+        return new ResponseEntity(new Message("Posición actualizada"), HttpStatus.OK);
         
     }
     

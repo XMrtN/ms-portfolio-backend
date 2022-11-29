@@ -13,6 +13,7 @@ public class Experience {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private int position;
     private String expCompName;
     private String expJobTitle;
     private String expPeriod;
@@ -22,7 +23,8 @@ public class Experience {
     public Experience() {
     }
 
-    public Experience(String expCompName, String expJobTitle, String expPeriod, String expDesc) {
+    public Experience(int position, String expCompName, String expJobTitle, String expPeriod, String expDesc) {
+        this.position = position;
         this.expCompName = expCompName;
         this.expJobTitle = expJobTitle;
         this.expPeriod = expPeriod;

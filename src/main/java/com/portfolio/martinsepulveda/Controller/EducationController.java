@@ -55,7 +55,7 @@ public class EducationController {
         if(educationService.existsByEdCareerName(edDto.getEdCareerName()))
             return new ResponseEntity(new Message("Esa educación ya existe"), HttpStatus.BAD_REQUEST);
         
-        Education education =  new Education(edDto.getEdInsTitle(), edDto.getEdCareerName(), edDto.getEdPeriod(), edDto.getEdDesc());
+        Education education =  new Education(edDto.getPosition(), edDto.getEdInsTitle(), edDto.getEdCareerName(), edDto.getEdPeriod(), edDto.getEdDesc());
         educationService.save(education);
         
         return new ResponseEntity(new Message("Educación agregada"), HttpStatus.OK);
@@ -79,6 +79,7 @@ public class EducationController {
             return new ResponseEntity(new Message("Esa educación ya existe"), HttpStatus.BAD_REQUEST);
         
         Education education = educationService.getOne(id).get();
+        education.setPosition(edDto.getPosition());
         education.setEdInsTitle(edDto.getEdInsTitle());
         education.setEdCareerName(edDto.getEdCareerName());
         education.setEdPeriod(edDto.getEdPeriod());
@@ -86,6 +87,18 @@ public class EducationController {
         
         educationService.save(education);
         return new ResponseEntity(new Message("Educación actualizada"), HttpStatus.OK);
+    }
+    
+    @PutMapping("/updatepos/{id}")
+    public ResponseEntity<?> updatePos(@PathVariable("id") int id, @RequestBody EducationDto edDto) {
+        if(!educationService.existsById(id))
+            return new ResponseEntity(new Message("La educación no existe"), HttpStatus.NOT_FOUND);
+        
+        Education education = educationService.getOne(id).get();
+        education.setPosition(edDto.getPosition());
+        
+        educationService.save(education);
+        return new ResponseEntity(new Message("Posición actualizada"), HttpStatus.OK);
     }
     
     @DeleteMapping("/delete/{id}")
