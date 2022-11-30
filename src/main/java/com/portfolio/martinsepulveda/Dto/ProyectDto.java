@@ -7,6 +7,8 @@ import lombok.Setter;
 @Getter @Setter
 public class ProyectDto {
     @NotBlank
+    private int position;
+    @NotBlank
     private String title;
     @NotBlank
     private String subtitle;
@@ -23,7 +25,8 @@ public class ProyectDto {
     public ProyectDto() {
     }
     
-    public ProyectDto(String title, String subtitle, String finishDate, String description, String img, String url) {
+    public ProyectDto(int position, String title, String subtitle, String finishDate, String description, String img, String url) {
+        this.position = position;
         this.title = title;
         this.subtitle = subtitle;
         this.finishDate = finishDate;

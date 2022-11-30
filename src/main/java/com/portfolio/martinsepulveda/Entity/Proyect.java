@@ -13,6 +13,7 @@ public class Proyect {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private int position;
     private String title;
     private String subtitle;
     private String finishDate;
@@ -24,7 +25,8 @@ public class Proyect {
     public Proyect() {
     }
 
-    public Proyect(String title, String subtitle, String finishDate, String description, String img, String url) {
+    public Proyect(int position, String title, String subtitle, String finishDate, String description, String img, String url) {
+        this.position = position;
         this.title = title;
         this.subtitle = subtitle;
         this.finishDate = finishDate;

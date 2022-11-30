@@ -49,7 +49,7 @@ public class ProyectController {
         if(proyectService.existsByTitle(proyectDto.getTitle()))
             return new ResponseEntity(new Message("Proyecto existente"), HttpStatus.BAD_REQUEST);
         
-        Proyect proyect =  new Proyect(proyectDto.getTitle(), proyectDto.getSubtitle(), proyectDto.getFinishDate(), proyectDto.getDescription(), proyectDto.getImg(), proyectDto.getUrl());
+        Proyect proyect =  new Proyect(proyectDto.getPosition(), proyectDto.getTitle(), proyectDto.getSubtitle(), proyectDto.getFinishDate(), proyectDto.getDescription(), proyectDto.getImg(), proyectDto.getUrl());
         proyectService.save(proyect);
         
         return new ResponseEntity(new Message("Proyecto agregado"), HttpStatus.OK);
@@ -75,6 +75,19 @@ public class ProyectController {
         
         proyectService.save(proyect);
         return new ResponseEntity(new Message("Proyecto actualizado"), HttpStatus.OK);
+        
+    }
+    
+    @PutMapping("/updatepos/{id}")
+    public ResponseEntity<?> updatePos(@PathVariable("id") int id, @RequestBody ProyectDto proyectDto) {
+        if(!proyectService.existsById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        
+        Proyect proyect = proyectService.getOne(id).get();
+        proyect.setPosition(proyectDto.getPosition());
+        
+        proyectService.save(proyect);
+        return new ResponseEntity(new Message("Posición actualizado"), HttpStatus.OK);
         
     }
     

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class SocialService {
     ISocialRepository isocialRepository;
     
     public List<Social> list() {
-        return isocialRepository.findAll();
+        return isocialRepository.findAll(Sort.by("position"));
     }
     
     public Optional<Social> getOne(int id) {

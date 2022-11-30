@@ -13,6 +13,7 @@ public class Social {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private int position;
     private String icon;
     private String url;
     
@@ -20,7 +21,8 @@ public class Social {
     public Social() {
     }
 
-    public Social(String icon, String url) {
+    public Social(int position, String icon, String url) {
+        this.position = position;
         this.icon = icon;
         this.url = url;
     }

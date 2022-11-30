@@ -52,7 +52,7 @@ public class SocialController {
         if(socialService.existsByUrl(socialDto.getUrl()))
             return new ResponseEntity(new Message("Esa cuenta ya existe"), HttpStatus.BAD_REQUEST);
         
-        Social social =  new Social(socialDto.getIcon(), socialDto.getUrl());
+        Social social =  new Social(socialDto.getPosition(), socialDto.getIcon(), socialDto.getUrl());
         socialService.save(social);
         
         return new ResponseEntity(new Message("Cuenta agregada"), HttpStatus.OK);
@@ -78,6 +78,19 @@ public class SocialController {
         
         socialService.save(social);
         return new ResponseEntity(new Message("Cuenta actualizada"), HttpStatus.OK);
+        
+    }
+    
+    @PutMapping("/updatepos/{id}")
+    public ResponseEntity<?> updatePos(@PathVariable("id") int id, @RequestBody SocialDto socialDto) {
+        if(!socialService.existsById(id))
+            return new ResponseEntity(new Message("La cuenta no existe"), HttpStatus.NOT_FOUND);
+        
+        Social social = socialService.getOne(id).get();
+        social.setPosition(socialDto.getPosition());
+        
+        socialService.save(social);
+        return new ResponseEntity(new Message("Posición actualizada"), HttpStatus.OK);
         
     }
     
