@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,11 +16,9 @@ public class Person {
     private int id;
     
     @NotNull
-    @Size(min = 1, max = 50, message = "Longitud inválida")
     private String name;
     
     @NotNull
-    @Size(min = 1, max = 50, message = "Longitud inválida")
     private String lastName;
     
     @NotNull
@@ -31,8 +28,6 @@ public class Person {
     private String email;
     
     private String img;
-    
-    @NotNull
     private String cv;
     
     //Constructors
