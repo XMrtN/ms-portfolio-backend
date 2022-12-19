@@ -14,14 +14,14 @@ public class Colors {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    private String firstColor;
+    private int firstColor;
     private String secondColor;
     
     //Constructors
     public Colors() {
     }
 
-    public Colors(String firstColor, String secondColor) {
+    public Colors(int firstColor, String secondColor) {
         this.firstColor = firstColor;
         this.secondColor = secondColor;
     }

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 public class ColorsDto {
     @NotBlank
-    private String firstColor;
+    private int firstColor;
     @NotBlank
     private String secondColor;
     
@@ -15,7 +15,7 @@ public class ColorsDto {
     public ColorsDto() {
     }
 
-    public ColorsDto(String firstColor, String secondColor) {
+    public ColorsDto(int firstColor, String secondColor) {
         this.firstColor = firstColor;
         this.secondColor = secondColor;
     }
