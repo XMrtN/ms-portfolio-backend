@@ -68,13 +68,37 @@ public class PersonController {
         Person person = personService.getOne(id).get();
         person.setName(personDto.getName());
         person.setLastName(personDto.getLastName());
-        person.setDescription(personDto.getDescription());
-        person .setEmail(personDto.getEmail());
         person.setImg(personDto.getImg());
         person.setCv(personDto.getCv());
         
         personService.save(person);
         return new ResponseEntity(new Message("Persona actualizada"), HttpStatus.OK);
+        
+    }
+    
+    @PutMapping("/updatedesc/{id}")
+    public ResponseEntity<?> updateDesc(@PathVariable("id") int id, @RequestBody PersonDto personDto) {
+        if(!personService.existsById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        
+        Person person = personService.getOne(id).get();
+        person.setDescription(personDto.getDescription());
+        
+        personService.save(person);
+        return new ResponseEntity(new Message("Descripción actualizada"), HttpStatus.OK);
+        
+    }
+    
+    @PutMapping("/updateemail/{id}")
+    public ResponseEntity<?> updateEmail(@PathVariable("id") int id, @RequestBody PersonDto personDto) {
+        if(!personService.existsById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        
+        Person person = personService.getOne(id).get();
+        person .setEmail(personDto.getEmail());
+        
+        personService.save(person);
+        return new ResponseEntity(new Message("Correo actualizado"), HttpStatus.OK);
         
     }
     
